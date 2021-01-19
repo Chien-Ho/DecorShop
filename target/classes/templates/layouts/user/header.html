@@ -1,0 +1,78 @@
+
+<div th:fragment="header">
+<div id="header">
+<div class="container">
+<div id="welcomeLine" class="row"  >
+ <div sec:authorize="isAuthenticated()">
+<div class="span6"  style="text-align:center;color:Tomato"> <h5 class="pull-left" >Welcome! <strong sec:authentication="principal.username"></strong></h5></div>
+	</div>
+	<div class="span6">
+	<div class="pull-right">
+		
+		<a  th:href="@{/cart-index}"><span class="btn btn-mini btn-primary"><span th:text="${session.cart != null}?${session.cart.size()}"></span><i class="icon-shopping-cart icon-white"></i> Items in your cart </span> <span class="badge badge-warning pull-right" th:text="${total}"></span></a> 
+	</div>
+	</div>
+</div>
+<!-- Navbar ================================================== -->
+<div id="logoArea" class="navbar">
+<a id="smallScreen" data-target="#topMenu" data-toggle="collapse" class="btn btn-navbar">
+	<span class="icon-bar"></span>
+	<span class="icon-bar"></span>
+	<span class="icon-bar"></span>
+</a>
+  <div class="navbar-inner">
+    <a class="brand" th:href="@{/}"><img th:src="@{/user/themes/images/logo.png}" alt="Bootsshop"/></a>
+		<form class="form-inline navbar-search" method="get" th:action="@{/user-search}" >
+		<input name="keywords"  placeholder="&#xF002; Search" style="font-family:Arial, FontAwesome" type="search"/>
+		  <select class="srchTxt" name="categoryId">
+		  <option th:value='-1'>All</option>
+		  <optgroup th:each ="parent : ${categoryParent}" th:label="${parent.name}">
+			
+			<option th:if=${!parent.children.isEmpty()} 
+                           th:each="children : ${parent.children}"
+                           th:value="${children.id}" 
+                           th:text="${children.name}"></option>
+			
+			</optgroup>
+		</select> 
+		  <button type="submit" id="submitButton" class="btn btn-primary">Search</button>
+    </form>
+    <ul id="topMenu" class="nav pull-right" >
+    <div sec:authorize="isAuthenticated()">
+    <a th:href="@{/logout}" role="button" data-toggle="modal" ><span class="btn btn-large btn-success">Logout</span></a>
+    </div>
+     <div sec:authorize="isAnonymous()">
+	 <a th:href="@{/register}" role="button" data-toggle="modal" ><span class="btn btn-large btn-success">Register</span></a>
+	 
+	 <a th:href="@{/login}" role="button" data-toggle="modal" ><span class="btn btn-large btn-success">Login</span></a>
+	 </div>
+	<div id="login" class="modal hide fade in" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="false" >
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3>Login Block</h3>
+		  </div>
+		  <div class="modal-body">
+			<form class="form-horizontal loginFrm">
+			  <div class="control-group">								
+				<input type="text" id="inputEmail" placeholder="Email">
+			  </div>
+			  <div class="control-group">
+				<input type="password" id="inputPassword" placeholder="Password">
+			  </div>
+			  <div class="control-group">
+				<label class="checkbox">
+				<input type="checkbox"> Remember me
+				</label>
+			  </div>
+			</form>		
+			<button type="submit" class="btn btn-success">Sign in</button>
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		  </div>
+	</div>
+	</li>
+    </ul>
+  </div>
+</div>
+</div>
+</div>
+</div>

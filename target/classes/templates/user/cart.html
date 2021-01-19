@@ -1,0 +1,65 @@
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/user/main-layout.html}">
+
+<body>
+<div layout:fragment="content">
+		<div class="span9">
+    <ul class="breadcrumb">
+		<li><a th:href="@{/}">Home</a> <span class="divider">/</span></li>
+		<li class="active"> SHOPPING CART</li>
+    </ul>
+	<h3>  SHOPPING CART [ <small> <span th:text="${session.cart != null}?${session.cart.size()}"></span> items</small> ]<a th:href="@{/}" class="btn btn-large pull-right"><i class="icon-arrow-left"></i> Continue Shopping </a></h3>	
+	<hr class="soft">
+	
+			<form th:action="@{/update-cart}" method="post">
+	<table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Name</th>
+                  <th>Quantity/<button type="submit" >Update</button></th>
+				  <th>Price</th>
+                  <th>Total</th>
+                  <th>Action</th>
+				</tr>
+              </thead>
+              <tbody>
+                <tr th:each="item : ${session.cart}">
+                  <td th:each="photo : ${item.product.photos}"> 
+                  <img width="60" th:src="@{${'/uploads/images/' + photo.name}}" alt=""></td>
+                  <td th:text="${item.product.name}"></td>
+				  <td>
+					<div class="input-append"><input class="span1"  id="quantities"  type="number" th:value="${item.quantity}"></div>
+				  </td>
+                  <td th:text="${item.product.price}"></td>
+                  
+                  <td th:text="${item.product.price*item.quantity}"></td>
+                 <td> <a class="btn btn-danger" th:href="@{/remove-cart/{id}(id=${item.product.id})}"><i class="icon-remove icon-white"></i></a>	</td>
+                </tr>
+			
+			
+				
+                <tr>
+                  <td colspan="6" style="text-align:right">Total Price:	</td>
+                  <td > </td>
+                </tr>
+				
+               
+				 <tr>
+                  <td colspan="6" style="text-align:right"><strong>TOTAL</strong></td>
+                  <td class="label label-important" style="display:block" th:text="${total}"> <strong ></strong></td>
+                </tr>
+				</tbody>
+            </table>
+		</form>
+		
+           
+			
+	<a th:href="@{/}" class="btn btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>
+	<a th:href="@{/checkout}" class="btn btn-large pull-right">Thanh ToaÌ�n <i class="icon-arrow-right"></i></a>
+	
+</div>
+		</div>
+</body>
+</html>

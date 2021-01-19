@@ -1,0 +1,125 @@
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/user/main-layout.html}">
+
+<body>
+<div layout:fragment="content">
+	<div class="span9">
+    <ul class="breadcrumb">
+    <li><a  th:href="@{/}">Home</a> <span class="divider">/</span></li>
+    <li><a th:href="@{/product-category/{id}(id=${id})}">Products</a> <span class="divider">/</span></li>
+    <li class="active">product Details</li>
+    </ul>	
+	<div class="row" th:each="photo : ${product.photos}">	  
+			<div id="gallery" class="span3">
+            <a href="themes/images/products/large/f1.jpg" title="Fujifilm FinePix S2950 Digital Camera">
+				<img th:src="@{${'/uploads/images/' + photo.name}}" style="width:100%" >
+            </a>
+			
+			  
+			 
+			</div>
+			<div class="span6">
+				<h3  th:text="${product.name}"></h3>
+				<hr class="soft">
+				<form class="form-horizontal qtyFrm" th:action="@{/cart/{id}(id=${product.id})}" method="get">
+				  <div class="control-group">
+					<label class="control-label" th:text="${product.price}"><span></span></label>
+					<div class="controls">
+					<input type="number" class="span1" placeholder="Qty." th:value="${product.price}">
+					  <button type="submit" class="btn btn-large btn-primary pull-right"> Add to cart <i class=" icon-shopping-cart"></i></button>
+					</div>
+				  </div>
+				</form>
+				
+				<hr class="soft">
+				<h4>100 items in stock</h4>
+				<form class="form-horizontal qtyFrm pull-right">
+				
+				</form>
+				<hr class="soft clr">
+				<p th:text="${product.content}">
+				
+				</p>
+				<a class="btn btn-small pull-right" href="#detail">More Details</a>
+				<br class="clr">
+			<a href="#" name="detail"></a>
+			<hr class="soft">
+			</div>
+			
+			<div class="span9">
+            <ul id="productDetail" class="nav nav-tabs">
+              <li class="active"><a href="#home" data-toggle="tab">Product Details</a></li>
+              <li><a href="#profile" data-toggle="tab">Related Products</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+           
+		<div class="tab-pane fade" id="profile">
+		<div id="myTab" class="pull-right">
+		 <a href="#listView" data-toggle="tab"><span class="btn btn-large"><i class="icon-list"></i></span></a>
+		 <a href="#blockView" data-toggle="tab"><span class="btn btn-large btn-primary"><i class="icon-th-large"></i></span></a>
+		</div>
+		<br class="clr">
+		<hr class="soft">
+		<div class="tab-content">
+			<div class="tab-pane" id="listView"  >
+				<div class="row" th:each="relatedP : ${relatedProducts}">	  
+					<div class="span2" th:each="photo : ${relatedP.photos}">
+						<img th:src="@{${'/uploads/images/' + photo.name}}"  alt="">
+					</div>
+					<div class="span4">
+						<h3 th:text="${relatedP.status} ? 'Còn Hàng' : 'Hết Hàng'"></h3>				
+						<hr class="soft">
+						<h5 th:text="${relatedP.name}"></h5>
+						<p th:text="${relatedP.description}">
+						
+						</p>
+						<a class="btn btn-small pull-right" th:href="@{/detail/{id}(id=${p.id})}">View Details</a>
+						<br class="clr">
+					</div>
+					<div class="span3 alignR">
+					<form class="form-horizontal qtyFrm">
+					<h3 th:text="${relatedP.price}"> </h3>
+					<label class="checkbox">
+						<input type="checkbox">  Adds product to compair
+					</label><br>
+					<div class="btn-group">
+					  <a th:href="@{/cart/{id}(id=${relatedP.id})}" class="btn btn-large btn-primary"> Add to <i class=" icon-shopping-cart"></i></a>
+					  <a href="product_details.html" class="btn btn-large"><i class="icon-zoom-in"></i></a>
+					 </div>
+						</form>
+					</div>
+			</div>
+			<hr class="soft">
+			
+			<hr class="soft">
+		</div>
+			<div class="tab-pane active" id="blockView">
+				<ul class="thumbnails">
+					<li class="span3" th:each="relatedP : ${relatedProducts}">
+					  <div class="thumbnail" th:each="photo : ${relatedP.photos}">
+						<a th:href="@{/detail/{id}(id=${p.id})}"><img th:src="@{${'/uploads/images/' + photo.name}}" alt=""></a>
+						<div class="caption">
+						 <h5 th:text="${relatedP.name}"></h5>
+						  <p th:text="${relatedP.description}">
+						
+						</p>
+						  <h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" th:href="@{/cart/{id}(id=${relatedP.id})}">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#" th:text="${relatedP.price}"></a></h4>
+						</div>
+					  </div>
+					</li>
+					
+				  </ul>
+			<hr class="soft">
+			</div>
+		</div>
+				<br class="clr">
+					 </div>
+		</div>
+          </div>
+
+	</div>
+</div>
+		</div>
+</body>
+</html>

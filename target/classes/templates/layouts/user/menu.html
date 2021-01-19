@@ -1,0 +1,23 @@
+<div th:fragment="menu">
+<div id="sidebar" class="span3">
+		<div class="well well-small"><a id="myCart" th:href="@{/cart-index}"><img th:src="@{/user/themes/images/ico-cart.png}" ><span  th:text="${session.cart != null}?${session.cart.size()}"></span> Items in your cart  <span class="badge badge-warning pull-right" th:text="${total}"></span></a></div>
+		<ul id="sideManu" class="nav nav-tabs nav-stacked" th:each ="parent : ${categoryParent}">
+			<li class="subMenu open"><a th:text="${parent.name}"></a>
+				<ul th:if=${!parent.children.isEmpty()} >
+				<li th:each="children : ${parent.children}"><a class="active" th:text="${children.name}" th:href="@{/product-category/{id}(id=${children.id})}"><i class="icon-chevron-right"></i> </a></li>
+				
+				</ul>
+			</li>
+			
+		
+		</ul>
+		
+			<div class="thumbnail">
+				<img th:src="@{/user/themes/images/payment_methods.png}" title="Bootshop Payment Methods" alt="Payments Methods">
+				<div class="caption">
+				  <h5>Payment Methods</h5>
+				</div>
+			  </div>
+	</div>
+	</div>
+	

@@ -1,0 +1,91 @@
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/admin/main-layout.html}">
+<body>
+<div layout:fragment="content">
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1 class="m-0 text-dark">List Product</h1>
+				
+							
+						</div>
+						<!-- /.col -->
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a flag="info"
+												   class="dt-button buttons-colvis btn btn-white btn-primary btn-bold" data-toggle="tooltip"
+												   title='add product' th:href="@{/admin/product-add}">
+															<span>
+																<i class="fa fa-plus-circle bigger-110 purple"></i>
+															</span>
+												</a>
+												
+												</li>
+								
+							</ol>
+						</div>
+						
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- /.content-header -->
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+				<table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Featured</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each = "product : ${productList}">
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.category.name}"></td>
+        <td th:text="${product.featured ? 'Featured' : ''}"></td>
+        <td th:text="${product.status ? 'Show' : 'Hide'}"></td>
+        <td><a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip" th:href="@{/admin/product-add(id=${product.id})}">
+        <span>
+        <i class="fas fa-edit"></i>
+        </span></a><a th:href="@{/admin/product-detele/{id}(id=${product.id})}" onclick="return confirm('Are You Sure?')">Delete</a>|<a th:href="@{/admin/photo-list/{id}(page=0,size=5,id=${product.id})}">Photos</a>|<a th:href="@{/admin/photo-add/{id}(id=${product.id})}">Add Photo</a>
+        
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+  <div class="row">
+  
+  <div class="col-sm-12 col-md-5">
+  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing <span th:text="${number+1}"></span> to <span th:text="${size}"> </span> of <span th:text="${totalElements}"> </span>
+  </div>
+  </div>
+  <div class="col-sm-12 col-md-7">
+  <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+  <ul class="pagination pull-right">
+  <th:block th:each="page: ${#numbers.sequence(0,totalPages)}">
+  <li class="paginate_button page-item active">
+  <a th:href="@{/admin/product-list(page=${page},size=${size},sort=${sort})}" aria-controls="example2"  class="page-link"><div th:text="${page+1}"> </div></a>
+  </li>
+  </th:block>
+  </ul></div></div></div>
+				</div>
+			</section>
+		</div>
+		</div>
+</body>
+</html>
