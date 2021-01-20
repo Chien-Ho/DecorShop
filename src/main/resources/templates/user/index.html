@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/user/main-layout.html}"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body>
+<div layout:fragment="content">
+		<div class="span9">
+		<div th:if="${param.checkoutSuccess != null}">
+					<div class="alert alert-success">	
+							<h3> Checkout Success </h3>
+					</div>
+				</div>
+			<h4>Featured Products</h4>
+			<ul class="thumbnails">
+				
+				<li class="span3" th:each="p : ${featuredProduct}">
+					<div class="thumbnail" th:each="photo : ${p.photos}" >
+						<a th:href="@{/detail/{id}(id=${p.id})}"><img
+							th:src="@{${'/uploads/images/' + photo.name}}" width="100" height="50" alt="" /></a>
+						<div class="caption">
+							<h5 th:text="${p.name}"></h5>
+							<p  th:text="${p.description}"></p>
+							<h4 style="text-align: center">
+								<a class="btn" th:href="@{/detail/{id}(id=${p.id})}"> <i
+									class="icon-zoom-in"></i></a> <a class="btn" th:href="@{/cart/{id}(id=${p.id})}">Add to <i
+									class="icon-shopping-cart"></i></a> <a class="btn btn-primary"
+									href="#" th:text="${p.price}"></a>
+							</h4>
+						</div>
+					</div>
+				</li>
+			
+			</ul>
+
+		</div>
+		</div>
+</body>
+</html>
